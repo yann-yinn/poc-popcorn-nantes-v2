@@ -83,8 +83,12 @@ function saveToDirectory(filepath, data) {
   if (!fs.existsSync(directoriesPath)) {
     fs.mkdirSync(directoriesPath, { recursive: true });
   }
-  fs.writeFileSync(filepath, data);
-  console.log("\x1b[32m", `📚 ${filepath} created.`);
+  try {
+    fs.writeFileSync(filepath, data);
+  } catch (error) {
+    throw new Error(error);
+  }
+  //console.log("\x1b[32m", `📚 ${filepath} created.`);
 }
 
 function deleteBuildDirectory() {

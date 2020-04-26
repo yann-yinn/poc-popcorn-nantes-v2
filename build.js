@@ -14,8 +14,8 @@ build();
 function build() {
   deleteBuildDirectory();
   copyStaticFiles();
-  // buildPages();
-  // buildPersons();
+  buildPages();
+  buildPersons();
   /*
   fs.readdirSync("./_site/public/images").forEach(function (filename) {
     console.log("filename", filename);
@@ -39,6 +39,7 @@ function buildPersons() {
   // keywords
   resources = resources.map((resource) => ({
     ...resource,
+    // this is how we will build search index for our search engine.
     $search_keywords: [
       ...resource.domaines_metiers,
       ...resource.technologies,
@@ -65,12 +66,17 @@ function buildPersons() {
     };
   });
 
+  const searchIndexJson = {};
+  resources.map((resource) => {
+    searchIndexJson[resource.$slug] = resource.$search_keywords;
+  });
+
   saveToDirectory(
-    `./${BUILD_DIRECTORY}/api/persons.json`,
-    JSON.stringify(shuffle(resources))
+    `./${BUILD_DIRECTORY}/api/search-index.json`,
+    JSON.stringify(searchIndexJson)
   );
 
-  const html = nunjucks.render("index.njk", { persons: resources });
+  const html = nunjucks.render("index.njk", { persons: shuffle(resources) });
   saveToDirectory(`./${BUILD_DIRECTORY}/index.html`, html);
   resources.forEach((person) => {
     const personHtml = nunjucks.render("person.njk", { entity: person });

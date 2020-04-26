@@ -1,25 +1,31 @@
 {% extends "layout.njk" %} 
 
 {% block content %}
+    <div class="container text-center my-6">
+    <h1 class="font-bold text-2xl">
+    Trouvez un développeur freelance à Nantes</h1>
+    <div><em>avec (vraiment) 0% de commission</em></div>
+    </div>
+
   <div class="container mx-auto flex flex-wrap">
     {% for person in persons %}
       <div class="w-full sm:w-1/2 md:w-1/2 lg:w-1/4 xl:w-1/4 p-2" id="{{person.$slug}}" >
-        <div class="bg-white shadow-xl rounded-lg">
-          <div class="overflow-hidden">
+        <div class="bg-white shadow rounded">
+          <div class="overflow-hidden rounded-t">
             <img class="object-cover h-64 md:h32 w-full" src="{{person.thumbnail}}" />
           </div>
           <div class="p-2 text-center">
             <h3 class="mt-2">{{ person.prenom }} {{ person.nom }}<h3>
             <h2 class="font-bold text-xl mb-">{{ person.titre }}</h2>
             <h4>{{ person.sous_titre }}</h4>
-            <div class="px-6 py-4">
+            <div class="mt-6">
               {% for technology in person.technologies %}
-              <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 my-2">
+              <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 my-1">
                 {{technology}}
               </span>
               {% endfor %}
             </div>
-            <div class="my-4">
+            <div class="my-6">
               <a href="/person/{{person.$slug}}.html" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Voir le profil
               </a>

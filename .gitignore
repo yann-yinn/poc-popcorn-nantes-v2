@@ -1,4 +1,6 @@
-# Created by .ignore support plugin (hsz.mobi)
+# generated html files
+_site
+
 ### Node template
 # Logs
 logs
@@ -18,9 +20,7 @@ pids
 .idea
 .vscode
 
-_site
 
-# fichiers json compilés depuis les fichiers markdown
-public/api/*
+
 
 

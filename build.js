@@ -81,9 +81,12 @@ function buildPersons() {
     };
   });
 
-  const searchIndexJson = {};
+  const searchIndexJson = [];
   resources.map((resource) => {
-    searchIndexJson[resource.$slug] = resource.$search_keywords;
+    searchIndexJson.push({
+      id: resource.$slug,
+      keywords: resource.$search_keywords,
+    });
   });
 
   saveToDirectory(

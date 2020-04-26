@@ -17,6 +17,7 @@
     "nunjucks": "^3.2.1",
     "path": "^0.12.7",
     "postcss-cli": "^7.1.0",
+    "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
     "sharp": "^0.25.2",
     "slug": "^2.1.1",

@@ -1,18 +1,31 @@
 const fs = require("fs");
+const fsExtra = require("fs-extra");
 const yamlFront = require("yaml-front-matter");
 const path = require("path");
 const slug = require("slug");
-const fsExtra = require("fs-extra");
+const rimraf = require("rimraf");
+const nunjucks = require("nunjucks");
+nunjucks.configure("theme/views", { autoescape: false });
+
 const markdownItInstance = require("markdown-it")({
   html: true,
   linkify: true,
 });
-const nunjucks = require("nunjucks");
-nunjucks.configure("theme/views", { autoescape: false });
 
-const siteDirectory = "_site";
+const BUILD_DIRECTORY = "_site";
+const STATIC_DIRECTORY = "static";
 
-compileSite();
+module.exports = {
+  parseMarkdownDirectory,
+  parseMarkdownFile,
+  saveToDirectory,
+  removeAllFilesFromDirectory,
+  shuffle,
+  copyStaticFiles,
+  deleteBuildDirectory,
+  BUILD_DIRECTORY,
+  STATIC_DIRECTORY,
+};
 
 /*===================================
  * Popcorn.js static site generator
@@ -74,8 +87,16 @@ function saveToDirectory(filepath, data) {
   console.log("\x1b[32m", `📚 ${filepath} created.`);
 }
 
+function deleteBuildDirectory() {
+  console.log("DELETING BUILD_DIRECTORY", path.resolve(`./${BUILD_DIRECTORY}`));
+  rimraf(path.resolve(`./${BUILD_DIRECTORY}`), function () {
+    console.log("done");
+  });
+}
+
 function removeAllFilesFromDirectory(directory) {
   fs.readdirSync(directory, (err, files) => {
+    // console.log("files", files);
     if (err) throw err;
     for (const file of files) {
       fs.unlinkSync(path.join(directory, file), (err) => {
@@ -97,63 +118,13 @@ function shuffle(a) {
   return a;
 }
 
-function compileSite() {
-  fsExtra.copySync("./public", "_site/public", { recursive: true });
-  compilePages();
-  compilePersons();
-}
-
-function compilePages() {
-  let entities = parseMarkdownDirectory("./content/pages");
-  entities.forEach((entity) => {
-    const html = nunjucks.render("page.njk", { entity });
-    saveToDirectory(`./${siteDirectory}/pages/${entity.$slug}.html`, html);
-  });
-}
-
-function compilePersons() {
-  let resources = parseMarkdownDirectory("./content/persons");
-  // keywords
-  resources = resources.map((resource) => ({
-    ...resource,
-    $search_keywords: [
-      ...resource.domaines_metiers,
-      ...resource.technologies,
-      resource.titre,
-    ],
-  }));
-
-  // gravatar
-  resources = resources.map((resource) => {
-    const { gravatar, mail, photo } = resource;
-    // no gravatar information -> quit
-    if (!gravatar) return { ...resource, photo: `/public${photo}` };
-
-    // gravatar field can be a boolean, in which case we use the mail field
-    // or it can be a string, in which case we use its value
-    const gravatarEmail = typeof gravatar === "boolean" ? mail : gravatar;
-
-    // we needs to retrieve the md5 of the email to get the avatar from gravatar
-    const md5sum = md5(gravatarEmail.toLowerCase().trim());
-
-    return {
-      ...resource,
-      photo: `https://www.gravatar.com/avatar/${md5sum}?s=500`,
-    };
-  });
-
-  saveToDirectory(
-    `./${siteDirectory}/api/persons.json`,
-    JSON.stringify(shuffle(resources))
-  );
-
-  const html = nunjucks.render("index.njk", { persons: resources });
-  saveToDirectory(`./${siteDirectory}/index.html`, html);
-  resources.forEach((person) => {
-    const personHtml = nunjucks.render("person.njk", { entity: person });
-    saveToDirectory(
-      `./${siteDirectory}/person/${person.$slug}.html`,
-      personHtml
-    );
+function copyStaticFiles() {
+  const staticDirectory = path.resolve(`./${STATIC_DIRECTORY}`);
+  const buildDirecttory = path.resolve(`./${BUILD_DIRECTORY}`);
+  if (!fs.existsSync(buildDirecttory)) {
+    fs.mkdirSync(buildDirecttory);
+  }
+  fsExtra.copySync(staticDirectory, buildDirecttory, {
+    recursive: true,
   });
 }

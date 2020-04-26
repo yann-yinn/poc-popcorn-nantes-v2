@@ -5,8 +5,8 @@
   "license": "MIT",
   "scripts": {
     "build": "yarn build:css && yarn build:html",
-    "build:css": "node popcorn.js",
-    "build:html": "postcss theme/app.css -o _site/app.css"
+    "build:html": "node build.js",
+    "build:css": "postcss theme/app.css -o _site/app.css"
   },
   "dependencies": {
     "@fullhuman/postcss-purgecss": "^2.1.2",
@@ -16,6 +16,8 @@
     "nunjucks": "^3.2.1",
     "path": "^0.12.7",
     "postcss-cli": "^7.1.0",
+    "rimraf": "^3.0.2",
+    "sharp": "^0.25.2",
     "slug": "^2.1.1",
     "tailwindcss": "^1.3.5",
     "yaml-front-matter": "^4.1.0"

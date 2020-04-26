@@ -2,12 +2,13 @@ const fs = require("fs");
 const yamlFront = require("yaml-front-matter");
 const path = require("path");
 const slug = require("slug");
+const fsExtra = require("fs-extra");
 const markdownItInstance = require("markdown-it")({
   html: true,
   linkify: true,
 });
 const nunjucks = require("nunjucks");
-nunjucks.configure("views", { autoescape: false });
+nunjucks.configure("theme/views", { autoescape: false });
 
 const siteDirectory = "_site";
 
@@ -97,8 +98,9 @@ function shuffle(a) {
 }
 
 function compileSite() {
+  fsExtra.copySync("./public", "_site/public", { recursive: true });
   compilePages();
-  //compilePersons();
+  compilePersons();
 }
 
 function compilePages() {
@@ -144,4 +146,7 @@ function compilePersons() {
     `./${siteDirectory}/api/persons.json`,
     JSON.stringify(shuffle(resources))
   );
+
+  const html = nunjucks.render("index.njk", { persons: resources });
+  saveToDirectory(`./${siteDirectory}/index.html`, html);
 }

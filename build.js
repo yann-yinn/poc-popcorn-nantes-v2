@@ -17,8 +17,11 @@ build();
 function build() {
   deleteBuildDirectory();
   copyStaticFiles();
-  // copy JS file:
+  // copy JS files
   fs.copyFile("./theme/app.js", `./${BUILD_DIRECTORY}/app.js`, (err) => {
+    if (err) throw err;
+  });
+  fs.copyFile("./theme/search.js", `./${BUILD_DIRECTORY}/search.js`, (err) => {
     if (err) throw err;
   });
   buildPages();

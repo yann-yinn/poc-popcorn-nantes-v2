@@ -4,8 +4,8 @@
 
   <div class="container mx-auto mt-10 px-10">
     <div class="flex flex-wrap">
-      <div class="w-full md:w-1/4 md:pr-10">
-        <img src="{{entity.photo}}" />
+      <div class="w-full md:w-1/4 pr-0 md:pr-10">
+        <img class="object-cover" src="{{entity.photo}}" />
       </div>
       <div class="w-full mt-10 md:w-3/4 md:mt-0">
         <div class="flex flex-wrap items-start">
@@ -13,12 +13,10 @@
             <h1 class="font-bold text-xl">{{ entity.prenom }} {{ entity.nom }}, {{ entity.titre }}</h1>
             <div class="italic">{{entity.sous_titre}}</div>
           </div>
-          <div class="w-full md:w-1/4">
-            <div>
-              <div onclick="showModal()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Proposer un projet
-              </div>
-            </div>
+          <div class="w-full md:w-1/4 text-center my-6 md:my-0 md:text-right">
+            <button onclick="showModal()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              Contacter
+            </button>
           </div>
         </div>
         <div class="html-content">
@@ -37,7 +35,7 @@
 
   <div id="person-contact-modal" style="display:none">
     <div class="flex items-center justify-center fixed left-0 bottom-0 w-full h-full bg-gray-800">
-      <div class="bg-white rounded-lg w-1/2">
+      <div class="bg-white rounded-lg" style="max-width:600px">
         <div class="flex flex-col items-start p-4">
           <div class="flex items-center w-full">
               <svg onclick="closeModal()" class="ml-auto fill-current text-gray-700 w-6 h-6 cursor-pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
@@ -47,12 +45,12 @@
           <hr>
           <div class="">
              <div class="md:flex bg-white rounded-lg p-6">
-              <img class="h-16 w-16 md:h-24 md:w-24 rounded-full mx-auto md:mx-0 md:mr-6" src="{{entity.photo}}">
+              <img class="h-32 w-32 object-cover md:h-24 md:w-24 rounded-full mx-auto md:mx-0 md:mr-6" src="{{entity.photo}}">
               <div class="text-center md:text-left">
                 <h2 class="text-lg">{{entity.prenom}} {{entity.nom}}</h2>
                 <div class="text-purple-500">{{entity.titre}}</div>
-                <div class="text-gray-600">{{entity.mail}}</div>
-                <div class="text-gray-600">{{entity.telephone}}</div>
+                <div id="js-encoded-data-1" class="text-gray-600">{{entity.mail}}</div>
+                <div id="js-encoded-data-2" class="text-gray-600">{{entity.telephone}}</div>
                 <div class="text-gray-600 mt-6">Indiquez-lui que vous l'avez trouvé·e sur Popcorn 🍿 :)</div>
               </div>
             </div>
@@ -64,12 +62,22 @@
 
   <script>
     const contactModal = document.getElementById("person-contact-modal");
+    let dataDecoded = false
+    // l'email et le téléphone sont vaguement obscurcis dans le code source html.
+    // on les décode au moment d'ouvrir les infos de contact.
+    const emailElement = document.getElementById("js-encoded-data-1")
+    const telephoneElement = document.getElementById("js-encoded-data-2")
 
     function closeModal() {
       contactModal.style.display = "none"
     }
 
     function showModal() {
+      if (dataDecoded === false) {
+        emailElement.innerHTML = atob(emailElement.textContent);
+        telephoneElement.innerHTML = atob(telephoneElement.textContent);
+        dataDecoded = true;
+      }
       contactModal.style.display = "block"
     }
   </script>

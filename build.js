@@ -2,7 +2,7 @@ const nunjucks = require("nunjucks");
 nunjucks.configure("theme/views", { autoescape: false });
 const fs = require("fs");
 const sharp = require("sharp");
-var compress_images = require("compress-images");
+
 const {
   parseMarkdownDirectory,
   saveToFile,
@@ -58,6 +58,10 @@ function buildPersons() {
       ...resource.technologies,
       resource.titre,
     ],
+    mail: Buffer.from(resource.mail).toString("base64"),
+    telephone: resource.telephone
+      ? new Buffer(resource.telephone).toString("base64")
+      : "",
   }));
 
   // gravatar

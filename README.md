@@ -43,21 +43,21 @@ Il s'agit d'un site généré statiquement par notre [machine à Popcorn](https:
 cloner ce dépôt puis
 
 ```sh
-npm install
-```
-
-démarrer le serveur de dev
-
-```sh
-npm run dev
+yarn install
 ```
 
 Générer la version statique du site
 
 ```sh
-npm run generate
+yarn build
+```
+
+Service la version statique du site, avec le package serve ( à installer avant)
+
+```sh
+serve _site
 ```
 
 ### Déployer
 
-Le déploiement du site est déclenché automatiquement par les *github actions* lors d'un merge sur la branche `master`. Les changements peuvent donc prendre quelques minutes avant d'être visible en production.
+Le déploiement du site est déclenché automatiquement par les _github actions_ lors d'un merge sur la branche `master`. Les changements peuvent donc prendre quelques minutes avant d'être visible en production.

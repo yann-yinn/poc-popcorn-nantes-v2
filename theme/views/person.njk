@@ -1,7 +1,22 @@
 {% extends "layout.njk" %} {% block content %}
-  <div class="container mx-auto">
-    <div class="html-content">
-      {{ entity.$html }}
+  <div class="container mx-auto mt-10 px-10">
+    <div class="flex flex-wrap">
+      <div class="w-full md:w-1/4 md:pr-10">
+        <img src="{{entity.photo}}" />
+      </div>
+      <div class="w-full mt-10 md:w-3/4  md:mt-0">
+        <h1 class="font-bold text-xl">{{ entity.prenom }} {{ entity.nom }}, {{ entity.titre }}</h1>
+        <div class="html-content">
+          {{ entity.$html }}
+        </div>
+        <div class="mt-6">
+          {% for technology in entity.technologies %}
+          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-xs font-semibold text-gray-700 mr-2 my-1">
+            {{technology}}
+          </span>
+          {% endfor %}
+        </div>
+      </div>
     </div>
   </div>
 {% endblock %}

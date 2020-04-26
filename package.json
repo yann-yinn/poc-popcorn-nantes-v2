@@ -1,0 +1,14 @@
+{
+  "name": "mini-popcorn-nantes",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "ejs": "^3.1.2",
+    "markdown-it": "^10.0.0",
+    "nunjucks": "^3.2.1",
+    "path": "^0.12.7",
+    "slug": "^2.1.1",
+    "yaml-front-matter": "^4.1.0"
+  }
+}

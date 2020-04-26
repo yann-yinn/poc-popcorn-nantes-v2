@@ -5,7 +5,7 @@ const sharp = require("sharp");
 var compress_images = require("compress-images");
 const {
   parseMarkdownDirectory,
-  saveToDirectory,
+  saveToFile,
   copyStaticFiles,
   deleteBuildDirectory,
   BUILD_DIRECTORY,
@@ -40,7 +40,7 @@ function buildPages() {
   let entities = parseMarkdownDirectory("./content/pages");
   entities.forEach((entity) => {
     const html = nunjucks.render("page.njk", { entity });
-    saveToDirectory(`./${BUILD_DIRECTORY}/pages/${entity.$slug}.html`, html);
+    saveToFile(`./${BUILD_DIRECTORY}/pages/${entity.$slug}.html`, html);
   });
 }
 
@@ -89,18 +89,15 @@ function buildPersons() {
     });
   });
 
-  saveToDirectory(
+  saveToFile(
     `./${BUILD_DIRECTORY}/api/search-index.json`,
     JSON.stringify(searchIndexJson)
   );
 
   const html = nunjucks.render("index.njk", { persons: shuffle(resources) });
-  saveToDirectory(`./${BUILD_DIRECTORY}/index.html`, html);
+  saveToFile(`./${BUILD_DIRECTORY}/index.html`, html);
   resources.forEach((person) => {
     const personHtml = nunjucks.render("person.njk", { entity: person });
-    saveToDirectory(
-      `./${BUILD_DIRECTORY}/person/${person.$slug}.html`,
-      personHtml
-    );
+    saveToFile(`./${BUILD_DIRECTORY}/person/${person.$slug}.html`, personHtml);
   });
 }

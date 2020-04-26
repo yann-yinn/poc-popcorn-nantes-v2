@@ -18,7 +18,7 @@ const STATIC_DIRECTORY = "static";
 module.exports = {
   parseMarkdownDirectory,
   parseMarkdownFile,
-  saveToDirectory,
+  saveToFile,
   removeAllFilesFromDirectory,
   shuffle,
   copyStaticFiles,
@@ -78,7 +78,7 @@ function parseMarkdownFile(filepath, options = {}) {
   return entity;
 }
 
-function saveToDirectory(filepath, data) {
+function saveToFile(filepath, data) {
   const directoriesPath = path.dirname(filepath);
   try {
     fs.mkdirSync(directoriesPath, { recursive: true });

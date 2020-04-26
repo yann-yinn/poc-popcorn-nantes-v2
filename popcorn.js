@@ -149,4 +149,11 @@ function compilePersons() {
 
   const html = nunjucks.render("index.njk", { persons: resources });
   saveToDirectory(`./${siteDirectory}/index.html`, html);
+  resources.forEach((person) => {
+    const personHtml = nunjucks.render("person.njk", { entity: person });
+    saveToDirectory(
+      `./${siteDirectory}/person/${person.$slug}.html`,
+      personHtml
+    );
+  });
 }

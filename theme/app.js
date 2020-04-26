@@ -13,7 +13,15 @@ search.addEventListener("input", (event) => {
   if (searchIndex) {
     let value = event.target.value;
     let results = searchPersons(searchIndex, value);
-    console.log("results", results);
+    const resultsIds = results.map((person) => person.id);
+    const matches = document.querySelectorAll('[data-type="person"]');
+    matches.forEach((match) => {
+      if (!resultsIds.includes(match.id)) {
+        match.style.display = "none";
+      } else {
+        match.style.display = "block";
+      }
+    });
   }
 });
 

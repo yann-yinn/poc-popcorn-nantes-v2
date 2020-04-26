@@ -1,5 +1,8 @@
 const nunjucks = require("nunjucks");
 nunjucks.configure("theme/views", { autoescape: false });
+const fs = require("fs");
+const sharp = require("sharp");
+var compress_images = require("compress-images");
 const {
   parseMarkdownDirectory,
   saveToDirectory,
@@ -16,14 +19,17 @@ function build() {
   copyStaticFiles();
   buildPages();
   buildPersons();
-  /*
-  fs.readdirSync("./_site/public/images").forEach(function (filename) {
-    console.log("filename", filename);
-    sharp("./_site/public/images/" + filename)
-      .resize(50)
-      .toFile("./_site/public/thumbnails/" + filename);
+
+  fs.mkdirSync("./_site/thumbnails");
+
+  fs.readdirSync("./_site/photos").forEach(function (filename) {
+    sharp("./_site/photos/" + filename)
+      .resize(300)
+      .jpeg({ progressive: true, force: false, quality: 90 })
+      .png({ progressive: true, force: false, compressionLevel: 9 })
+      .toFile("./_site/thumbnails/" + filename)
+      .then((v) => {});
   });
-  */
 }
 
 function buildPages() {
@@ -51,7 +57,12 @@ function buildPersons() {
   resources = resources.map((resource) => {
     const { gravatar, mail, photo } = resource;
     // no gravatar information -> quit
-    if (!gravatar) return { ...resource, photo: `/public${photo}` };
+    if (!gravatar)
+      return {
+        ...resource,
+        photo: `/photos/${photo}`,
+        thumbnail: `/thumbnails/${photo}`,
+      };
 
     // gravatar field can be a boolean, in which case we use the mail field
     // or it can be a string, in which case we use its value

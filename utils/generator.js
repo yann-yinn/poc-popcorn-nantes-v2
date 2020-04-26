@@ -80,8 +80,10 @@ function parseMarkdownFile(filepath, options = {}) {
 
 function saveToDirectory(filepath, data) {
   const directoriesPath = path.dirname(filepath);
-  if (!fs.existsSync(directoriesPath)) {
+  try {
     fs.mkdirSync(directoriesPath, { recursive: true });
+  } catch (error) {
+    throw new Error(error);
   }
   try {
     fs.writeFileSync(filepath, data);
@@ -92,10 +94,8 @@ function saveToDirectory(filepath, data) {
 }
 
 function deleteBuildDirectory() {
-  console.log("DELETING BUILD_DIRECTORY", path.resolve(`./${BUILD_DIRECTORY}`));
-  rimraf(path.resolve(`./${BUILD_DIRECTORY}`), function () {
-    console.log("done");
-  });
+  const buildDirectory = path.resolve(`./${BUILD_DIRECTORY}`);
+  rimraf.sync(buildDirectory);
 }
 
 function removeAllFilesFromDirectory(directory) {

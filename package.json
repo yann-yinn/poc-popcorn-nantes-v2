@@ -4,13 +4,14 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build": "yarn build:css && yarn build:html",
+    "build": "yarn build:html && yarn build:css",
     "build:html": "node build.js",
     "build:css": "postcss theme/app.css -o _site/app.css"
   },
   "dependencies": {
     "@fullhuman/postcss-purgecss": "^2.1.2",
     "autoprefixer": "^9.7.6",
+    "compress-images": "^1.7.8",
     "fs-extra": "^9.0.0",
     "markdown-it": "^10.0.0",
     "nunjucks": "^3.2.1",

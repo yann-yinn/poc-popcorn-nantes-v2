@@ -3,17 +3,28 @@
 {% block content %}
   <div class="container mx-auto flex flex-wrap">
     {% for person in persons %}
-      <div class="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-4">
-        <div class="bg-white shadow-xl rounded">
+      <div class="w-full sm:w-1/2 md:w-1/2 lg:w-1/4 xl:w-1/4 p-2" id="{{person.$slug}}" >
+        <div class="bg-white shadow-xl rounded-lg">
           <div class="overflow-hidden">
-            <img class="object-cover h-64 md:h32 w-full" src="{{person.photo}}" />
+            <img class="object-cover h-64 md:h32 w-full" src="{{person.thumbnail}}" />
           </div>
-          <h3>{{ person.titre }}</h3>
-          <h2>{{ person.prenom }} {{ person.nom }}<h2>
-          <h4>{{ person.sous_titre }}</h4>
-          <a href="/person/{{person.$slug}}.html" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            Voir le profil
-          </a>
+          <div class="p-2 text-center">
+            <h3 class="mt-2">{{ person.prenom }} {{ person.nom }}<h3>
+            <h2 class="font-bold text-xl mb-">{{ person.titre }}</h2>
+            <h4>{{ person.sous_titre }}</h4>
+            <div class="px-6 py-4">
+              {% for technology in person.technologies %}
+              <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 my-2">
+                {{technology}}
+              </span>
+              {% endfor %}
+            </div>
+            <div class="my-4">
+              <a href="/person/{{person.$slug}}.html" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Voir le profil
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     {% endfor %}

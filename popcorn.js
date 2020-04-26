@@ -6,7 +6,6 @@ const markdownItInstance = require("markdown-it")({
   html: true,
   linkify: true,
 });
-const ejs = require("ejs");
 const nunjucks = require("nunjucks");
 nunjucks.configure("views", { autoescape: false });
 
@@ -63,20 +62,6 @@ function parseMarkdownFile(filepath, options = {}) {
   filename = filename.substring(0, filename.length - 3);
   entity.$slug = slug(filename);
   return entity;
-}
-
-/**
- * Save a file inside jsonDirectory (static/api by default)
- * @param {*} filepath : filepath, relative to jsonDirectory path
- * @param {*} data
- */
-function saveToJsonDirectory(filepath, data) {
-  const directoriesPath = path.dirname(filepath);
-  if (!fs.existsSync(directoriesPath)) {
-    fs.mkdirSync(directoriesPath, { recursive: true });
-  }
-  fs.writeFileSync(filepath, JSON.stringify(data));
-  console.log("\x1b[32m", `📚 ${filepath} created.`);
 }
 
 function saveToDirectory(filepath, data) {

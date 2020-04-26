@@ -17,6 +17,10 @@ build();
 function build() {
   deleteBuildDirectory();
   copyStaticFiles();
+  // copy JS file:
+  fs.copyFile("./theme/app.js", `./${BUILD_DIRECTORY}/app.js`, (err) => {
+    if (err) throw err;
+  });
   buildPages();
   buildPersons();
 

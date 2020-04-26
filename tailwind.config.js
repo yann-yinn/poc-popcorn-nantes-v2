@@ -14,6 +14,10 @@ module.exports = {
         xl: "1280px",
         // => @media (min-width: 1280px) { ... }
       },
+      colors: {
+        "popcorn-yellow": "#f0d37a",
+        "popcorn-red": "#d22321",
+      },
     },
   },
   variants: {},

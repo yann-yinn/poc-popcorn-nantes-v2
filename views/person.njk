@@ -46,7 +46,7 @@
     </div>
   </div>
 
-  <div id="person-contact-modal" style="display:none">
+  <div data-modal style="display:none">
     <div class="flex items-center justify-center fixed left-0 bottom-0 w-full h-full bg-gray-800">
       <div class="bg-white rounded-lg" style="max-width:600px">
         <div class="flex flex-col items-start p-4">
@@ -62,8 +62,8 @@
               <div class="text-center md:text-left">
                 <h2 class="text-lg">{{entity.prenom}} {{entity.nom}}</h2>
                 <div class="text-purple-500">{{entity.titre}}</div>
-                <div id="js-encoded-data-1" class="text-gray-600">{{entity.mail}}</div>
-                <div id="js-encoded-data-2" class="text-gray-600">{{entity.telephone}}</div>
+                <div data-mail class="text-gray-600">{{entity.mail}}</div>
+                <div data-telephone class="text-gray-600">{{entity.telephone}}</div>
                 <div class="text-gray-600 mt-6">Indiquez-lui que vous l'avez trouvé·e sur Popcorn 🍿 :)</div>
               </div>
             </div>
@@ -74,12 +74,12 @@
   </div>
 
   <script>
-    const contactModal = document.getElementById("person-contact-modal");
-    let dataDecoded = false
+    const contactModal = document.querySelector('[data-modal]');
     // l'email et le téléphone sont vaguement obscurcis dans le code source html.
     // on les décode au moment d'ouvrir les infos de contact.
-    const emailElement = document.getElementById("js-encoded-data-1")
-    const telephoneElement = document.getElementById("js-encoded-data-2")
+    let dataDecoded = false
+    const emailElement = document.querySelector("[data-mail]")
+    const telephoneElement = document.querySelector("[data-telephone]")
 
     function closeModal() {
       contactModal.style.display = "none"

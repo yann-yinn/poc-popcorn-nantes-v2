@@ -15,3 +15,11 @@ taildwind is compiled with postcss
   @apply font-bold;
   @apply text-lg;
 }
+
+.html-content p {
+  @apply my-6;
+}
+
+.html-content a {
+  @apply text-blue-500;
+}

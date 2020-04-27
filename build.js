@@ -1,13 +1,14 @@
+require("dotenv").config();
 const nunjucks = require("nunjucks");
-nunjucks.configure("theme/views", { autoescape: false });
+nunjucks.configure("views", { autoescape: false });
 const fs = require("fs");
 const sharp = require("sharp");
-require("dotenv").config();
 const {
+  postcssRun,
   parseMarkdownDirectory,
   saveToFile,
   copyStaticFiles,
-  deleteBuildDirectory,
+  deleteDirectoryRecursive,
   BUILD_DIRECTORY,
   shuffle,
 } = require("./utils/helpers.js");
@@ -26,13 +27,21 @@ const defaultContext = {
 build();
 
 function build() {
-  deleteBuildDirectory();
+  deleteDirectoryRecursive(`./${BUILD_DIRECTORY}`);
+  fs.mkdirSync(`./${BUILD_DIRECTORY}`);
   copyStaticFiles();
   buildPages();
   buildPersons();
 
-  fs.mkdirSync("./_site/thumbnails");
+  // compiled and purge tailwind.css
+  const purgecssConfig = {
+    content: ["views/**/*.njk"],
+    defaultExtractor: (content) => content.match(/[\w-/:]+(?<!:)/g) || [],
+  };
+  postcssRun("./static/app.css", "./_site/app.css", purgecssConfig);
 
+  // optimizing images
+  fs.mkdirSync("./_site/thumbnails");
   fs.readdirSync("./_site/photos").forEach(function (filename) {
     sharp("./_site/photos/" + filename)
       .resize(300)

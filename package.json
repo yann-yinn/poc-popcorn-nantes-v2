@@ -4,9 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build": "yarn build:html && yarn build:css",
-    "build:html": "node build.js",
-    "build:css": "postcss theme/app.css -o _site/app.css"
+    "build": "node build.js"
   },
   "dependencies": {
     "@fullhuman/postcss-purgecss": "^2.1.2",

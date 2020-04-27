@@ -4,8 +4,9 @@ const yamlFront = require("yaml-front-matter");
 const path = require("path");
 const slug = require("slug");
 const rimraf = require("rimraf");
-const nunjucks = require("nunjucks");
-nunjucks.configure("theme/views", { autoescape: false });
+const autoprefixer = require("autoprefixer");
+const postcss = require("postcss");
+const purgecss = require("@fullhuman/postcss-purgecss");
 
 const markdownItInstance = require("markdown-it")({
   html: true,
@@ -22,9 +23,10 @@ module.exports = {
   removeAllFilesFromDirectory,
   shuffle,
   copyStaticFiles,
-  deleteBuildDirectory,
+  deleteDirectoryRecursive,
   BUILD_DIRECTORY,
   STATIC_DIRECTORY,
+  postcssRun,
 };
 
 function parseMarkdownDirectory(inputDirectory, options = {}) {
@@ -89,9 +91,9 @@ function saveToFile(filepath, data) {
   //console.log("\x1b[32m", `📚 ${filepath} created.`);
 }
 
-function deleteBuildDirectory() {
-  const buildDirectory = path.resolve(`./${BUILD_DIRECTORY}`);
-  rimraf.sync(buildDirectory);
+function deleteDirectoryRecursive(directory) {
+  const directoryPath = path.resolve(`./${directory}`);
+  rimraf.sync(directoryPath);
 }
 
 function removeAllFilesFromDirectory(directory) {
@@ -126,5 +128,25 @@ function copyStaticFiles() {
   }
   fsExtra.copySync(staticDirectory, buildDirecttory, {
     recursive: true,
+  });
+}
+
+function postcssRun(source, destination, purgecssConfig) {
+  fs.readFile(source, (err, css) => {
+    postcss([
+      require("tailwindcss"),
+      autoprefixer,
+      purgecss({
+        ...purgecssConfig,
+      }),
+    ])
+      .process(css, { from: source, to: destination })
+      .then((result) => {
+        console.log("result", result);
+        fs.writeFile(destination, result.css, () => true);
+        if (result.map) {
+          fs.writeFile(`${destination}.map`, result.map, () => true);
+        }
+      });
   });
 }

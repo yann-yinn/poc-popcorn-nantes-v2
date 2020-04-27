@@ -70,7 +70,7 @@ function buildPages() {
   let entities = parseMarkdownDirectory("./content/pages");
   entities.forEach((entity) => {
     const html = nunjucks.render("page.njk", { entity, ...defaultContext });
-    saveToFile(`./${BUILD_DIRECTORY}/pages/${entity.$slug}`, html);
+    saveToFile(`./${BUILD_DIRECTORY}/pages/${entity.$slug}.html`, html);
   });
 }
 

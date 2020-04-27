@@ -1,5 +1,4 @@
 const fs = require("fs");
-const fsExtra = require("fs-extra");
 const yamlFront = require("yaml-front-matter");
 const path = require("path");
 const slug = require("slug");
@@ -13,19 +12,13 @@ const markdownItInstance = require("markdown-it")({
   linkify: true,
 });
 
-const BUILD_DIRECTORY = "_site";
-const STATIC_DIRECTORY = "static";
-
 module.exports = {
   parseMarkdownDirectory,
   parseMarkdownFile,
   saveToFile,
   removeAllFilesFromDirectory,
   shuffle,
-  copyStaticFiles,
   deleteDirectoryRecursive,
-  BUILD_DIRECTORY,
-  STATIC_DIRECTORY,
   postcssRun,
 };
 
@@ -118,17 +111,6 @@ function shuffle(a) {
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
-}
-
-function copyStaticFiles() {
-  const staticDirectory = path.resolve(`./${STATIC_DIRECTORY}`);
-  const buildDirecttory = path.resolve(`./${BUILD_DIRECTORY}`);
-  if (!fs.existsSync(buildDirecttory)) {
-    fs.mkdirSync(buildDirecttory);
-  }
-  fsExtra.copySync(staticDirectory, buildDirecttory, {
-    recursive: true,
-  });
 }
 
 function postcssRun(source, destination, purgecssConfig) {

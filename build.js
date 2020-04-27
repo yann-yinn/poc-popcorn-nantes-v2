@@ -2,16 +2,19 @@ require("dotenv").config();
 const nunjucks = require("nunjucks");
 nunjucks.configure("views", { autoescape: false });
 const fs = require("fs");
+const fsExtra = require("fs-extra");
 const sharp = require("sharp");
+const path = require("path");
 const {
   postcssRun,
   parseMarkdownDirectory,
   saveToFile,
-  copyStaticFiles,
   deleteDirectoryRecursive,
-  BUILD_DIRECTORY,
   shuffle,
 } = require("./utils/helpers.js");
+
+const BUILD_DIRECTORY = "_site";
+const STATIC_DIRECTORY = "static";
 
 /**
  * Variables par défaut pour les templates nunjucks. A passer manuellement
@@ -27,9 +30,20 @@ const defaultContext = {
 build();
 
 function build() {
+  // delete and recreate BUILD directory
   deleteDirectoryRecursive(`./${BUILD_DIRECTORY}`);
   fs.mkdirSync(`./${BUILD_DIRECTORY}`);
-  copyStaticFiles();
+
+  // copy files from static diretory to build directory
+  fsExtra.copySync(
+    path.resolve(`./${STATIC_DIRECTORY}`),
+    path.resolve(`./${BUILD_DIRECTORY}`),
+    {
+      recursive: true,
+    }
+  );
+
+  // create html files from markdown files
   buildPages();
   buildPersons();
 
@@ -40,7 +54,7 @@ function build() {
   };
   postcssRun("./static/app.css", "./_site/app.css", purgecssConfig);
 
-  // optimizing images
+  // optimize images
   fs.mkdirSync("./_site/thumbnails");
   fs.readdirSync("./_site/photos").forEach(function (filename) {
     sharp("./_site/photos/" + filename)

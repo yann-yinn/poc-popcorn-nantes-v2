@@ -17,7 +17,7 @@ const {
  * en appelant la fonction "render". Permet de passer les variables d'env.
  */
 const defaultContext = {
-  SITE_BASE_URL: process.SITE_BASE_URL,
+  SITE_BASE_URL: process.env.SITE_BASE_URL,
 };
 
 /**

@@ -13,17 +13,17 @@ const {
 } = require("./utils/helpers.js");
 
 /**
- * BUILD STATIC SITE
- */
-build();
-
-/**
  * Variables par défaut pour les templates nunjucks. A passer manuellement
  * en appelant la fonction "render". Permet de passer les variables d'env.
  */
 const defaultContext = {
   SITE_BASE_URL: process.SITE_BASE_URL,
 };
+
+/**
+ * BUILD STATIC SITE
+ */
+build();
 
 function build() {
   deleteBuildDirectory();

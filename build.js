@@ -57,13 +57,13 @@ function build() {
   // resize and compress jpeg for homepage listing.
   fs.mkdirSync("./_site/thumbnails");
   fs.mkdirSync("./_site/thumbnails/homepage");
+  const promises = [];
   fs.readdirSync("./_site/photos").forEach(function (filename) {
     sharp("./_site/photos/" + filename)
-      .resize(300, null)
       .png({ compression: 9 })
       .jpeg({ progressive: true, quality: 80 })
-      .toFile("./_site/thumbnails/homepage/" + filename)
-      .then((v) => {});
+      .resize(300)
+      .toFile("./_site/thumbnails/homepage/" + filename);
   });
 }
 

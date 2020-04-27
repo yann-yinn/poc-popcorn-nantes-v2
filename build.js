@@ -61,7 +61,7 @@ function build() {
   fs.readdirSync("./_site/photos").forEach(function (filename) {
     sharp("./_site/photos/" + filename)
       .png({ compression: 9 })
-      .jpeg({ progressive: true, quality: 80 })
+      .jpeg({ progressive: true, quality: 85 })
       .resize(300)
       .toFile("./_site/thumbnails/homepage/" + filename);
   });

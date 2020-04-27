@@ -70,7 +70,7 @@ function buildPages() {
   let entities = parseMarkdownDirectory("./content/pages");
   entities.forEach((entity) => {
     const html = nunjucks.render("page.njk", { entity, ...defaultContext });
-    saveToFile(`./${BUILD_DIRECTORY}/pages/${entity.$slug}.html`, html);
+    saveToFile(`./${BUILD_DIRECTORY}/pages/${entity.$slug}/index.html`, html);
   });
 }
 
@@ -139,6 +139,9 @@ function buildPersons() {
       entity: person,
       ...defaultContext,
     });
-    saveToFile(`./${BUILD_DIRECTORY}/person/${person.$slug}.html`, personHtml);
+    saveToFile(
+      `./${BUILD_DIRECTORY}/person/${person.$slug}/index.html`,
+      personHtml
+    );
   });
 }

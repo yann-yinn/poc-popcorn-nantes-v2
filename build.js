@@ -1,6 +1,7 @@
 require("dotenv").config();
+const config = require("./config");
 const nunjucks = require("nunjucks");
-nunjucks.configure("views", { autoescape: false });
+const views = nunjucks.configure("views", { autoescape: false });
 const fs = require("fs");
 const fsExtra = require("fs-extra");
 const sharp = require("sharp");
@@ -13,16 +14,11 @@ const {
   shuffle,
 } = require("./utils/helpers.js");
 
+views.addGlobal("SITE_NAME", config.SITE_NAME);
+views.addGlobal("SITE_BASE_URL", process.env.SITE_BASE_URL);
+
 const BUILD_DIRECTORY = "_site";
 const STATIC_DIRECTORY = "static";
-
-/**
- * Variables par défaut pour les templates nunjucks. A passer manuellement
- * en appelant la fonction "render". Permet de passer les variables d'env.
- */
-const defaultContext = {
-  SITE_BASE_URL: process.env.SITE_BASE_URL,
-};
 
 /**
  * BUILD STATIC SITE
@@ -70,7 +66,7 @@ function build() {
 function buildPages() {
   let entities = parseMarkdownDirectory("./content/pages");
   entities.forEach((entity) => {
-    const html = nunjucks.render("page.njk", { entity, ...defaultContext });
+    const html = views.render("page.njk", { entity });
     saveToFile(`./${BUILD_DIRECTORY}/pages/${entity.$slug}/index.html`, html);
   });
 }
@@ -131,15 +127,13 @@ function buildPersons() {
     JSON.stringify(searchIndexJson)
   );
 
-  const html = nunjucks.render("index.njk", {
+  const html = views.render("index.njk", {
     persons: shuffle(resources),
-    ...defaultContext,
   });
   saveToFile(`./${BUILD_DIRECTORY}/index.html`, html);
   resources.forEach((person) => {
-    const personHtml = nunjucks.render("person.njk", {
+    const personHtml = views.render("person.njk", {
       entity: person,
-      ...defaultContext,
     });
     saveToFile(
       `./${BUILD_DIRECTORY}/person/${person.$slug}/index.html`,

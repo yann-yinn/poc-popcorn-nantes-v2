@@ -1,3 +1,7 @@
+---
+title: "Kit de communication"
+---
+
 # Kit de communication
 
 ## Présentation à destination des entreprises, start-ups, collectivités

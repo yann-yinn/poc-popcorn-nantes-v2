@@ -1,18 +1,16 @@
-{% extends "layout.njk" %} 
+{% extends "layout.njk" %}
+{% import "macros.njk" as macros %}
 
-{% block meta %}
+{% block head %}
   <title>Popcorn Nantes | {{entity.prenom}} {{entity.nom}}</title>
-  <meta name="description" content="Profil freelance de {{entity.prenom}} {{entity.nom}}, {{entity.titre}}"/>
-  <meta property="og:site_name" content="Popcorn"/>
-  <meta property="og:url" content="{{SITE_BASE_URL}}/person/{{entity.$slug}}"/>
-  <meta property="og:title" content="Profil freelance de {{entity.prenom}} {{entity.nom}}, {{entity.titre}}"/>
-  <meta property="og:url" content="{{SITE_BASE_URL}}/person/{{entity.$slug}}"/>
-  <meta property="og:image" content="{{SITE_BASE_URL}}/images/popcorn.jpg"/>
-  <meta property="og:description" content="Trouvez un développeur freelance à Nantes sans intermédiaire et sans frais."/>
-  <meta name="twitter:card" content="summary"/>
-  <meta name="twitter:title" content="Profil freelance de {{entity.prenom}} {{entity.nom}}, {{entity.titre}}"/>
-  <meta name="twitter:description" content="Trouvez un développeur freelance à Nantes sans intermédiaire et sans frais."/>
-  <meta name="twitter:image" content="{{SITE_BASE_URL}}/images/popcorn.jpg"/>
+    {{ 
+    macros.socialMetas(
+      title="Profil freelance de "+ entity.prenom + " " + entity.nom + "," + entity.titre,
+      description="Trouvez un développeur freelance à Nantes sans intermédiaire et sans frais.",  
+      url=SITE_BASE_URL + "/person/" + entity.$slug,
+      image=SITE_BASE_URL + "/images/popcorn.jpg"
+    ) 
+  }}
 {% endblock %}
 
 {% block content %}

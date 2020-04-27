@@ -81,7 +81,7 @@ function saveToFile(filepath, data) {
   } catch (error) {
     throw new Error(error);
   }
-  console.log("\x1b[32m", `📚 ${filepath} created.`);
+  // console.log("\x1b[32m", `📚 ${filepath} created.`);
 }
 
 function deleteDirectoryRecursive(directory) {

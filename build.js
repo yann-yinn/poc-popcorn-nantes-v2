@@ -54,14 +54,15 @@ function build() {
   };
   postcssRun("./static/app.css", "./_site/app.css", purgecssConfig);
 
-  // optimize images
+  // resize and compress jpeg for homepage listing.
   fs.mkdirSync("./_site/thumbnails");
+  fs.mkdirSync("./_site/thumbnails/homepage");
   fs.readdirSync("./_site/photos").forEach(function (filename) {
     sharp("./_site/photos/" + filename)
-      .resize(300)
-      .jpeg({ progressive: true, force: false, quality: 90 })
-      .png({ progressive: true, force: false, compressionLevel: 9 })
-      .toFile("./_site/thumbnails/" + filename)
+      .resize(300, null)
+      .png({ compression: 9 })
+      .jpeg({ progressive: true, quality: 80 })
+      .toFile("./_site/thumbnails/homepage/" + filename)
       .then((v) => {});
   });
 }
@@ -98,8 +99,9 @@ function buildPersons() {
     if (!gravatar)
       return {
         ...resource,
+        filename: photo,
         photo: `/photos/${photo}`,
-        thumbnail: `/thumbnails/${photo}`,
+        thumbnail_homepage: `/thumbnails/homepage/${photo}`,
       };
 
     // gravatar field can be a boolean, in which case we use the mail field
@@ -112,7 +114,7 @@ function buildPersons() {
     return {
       ...resource,
       photo: `https://www.gravatar.com/avatar/${md5sum}?s=500`,
-      thumbnail: `https://www.gravatar.com/avatar/${md5sum}?s=500`,
+      thumbnail_homepage: `https://www.gravatar.com/avatar/${md5sum}?s=500`,
     };
   });
 

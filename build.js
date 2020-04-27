@@ -139,6 +139,6 @@ function buildPersons() {
       entity: person,
       ...defaultContext,
     });
-    saveToFile(`./${BUILD_DIRECTORY}/person/${person.$slug}`, personHtml);
+    saveToFile(`./${BUILD_DIRECTORY}/person/${person.$slug}.html`, personHtml);
   });
 }

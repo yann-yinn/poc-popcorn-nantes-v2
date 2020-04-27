@@ -81,7 +81,7 @@ function saveToFile(filepath, data) {
   } catch (error) {
     throw new Error(error);
   }
-  //console.log("\x1b[32m", `📚 ${filepath} created.`);
+  console.log("\x1b[32m", `📚 ${filepath} created.`);
 }
 
 function deleteDirectoryRecursive(directory) {
@@ -91,7 +91,6 @@ function deleteDirectoryRecursive(directory) {
 
 function removeAllFilesFromDirectory(directory) {
   fs.readdirSync(directory, (err, files) => {
-    // console.log("files", files);
     if (err) throw err;
     for (const file of files) {
       fs.unlinkSync(path.join(directory, file), (err) => {
@@ -124,7 +123,6 @@ function postcssRun(source, destination, purgecssConfig) {
     ])
       .process(css, { from: source, to: destination })
       .then((result) => {
-        console.log("result", result);
         fs.writeFile(destination, result.css, () => true);
         if (result.map) {
           fs.writeFile(`${destination}.map`, result.map, () => true);

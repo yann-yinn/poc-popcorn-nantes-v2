@@ -28,13 +28,6 @@ build();
 function build() {
   deleteBuildDirectory();
   copyStaticFiles();
-  // copy JS files
-  fs.copyFile("./theme/app.js", `./${BUILD_DIRECTORY}/app.js`, (err) => {
-    if (err) throw err;
-  });
-  fs.copyFile("./theme/search.js", `./${BUILD_DIRECTORY}/search.js`, (err) => {
-    if (err) throw err;
-  });
   buildPages();
   buildPersons();
 
@@ -75,7 +68,7 @@ function buildPersons() {
       : "",
   }));
 
-  // gravatar
+  // photo
   resources = resources.map((resource) => {
     const { gravatar, mail, photo } = resource;
     // no gravatar information -> quit
@@ -96,6 +89,7 @@ function buildPersons() {
     return {
       ...resource,
       photo: `https://www.gravatar.com/avatar/${md5sum}?s=500`,
+      thumbnail: `https://www.gravatar.com/avatar/${md5sum}?s=500`,
     };
   });
 

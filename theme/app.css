@@ -1,3 +1,7 @@
+/*
+taildwind is compiled with postcss
+@see npm run build:css command in package.json
+*/
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

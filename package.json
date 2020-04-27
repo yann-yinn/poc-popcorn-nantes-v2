@@ -12,6 +12,7 @@
     "@fullhuman/postcss-purgecss": "^2.1.2",
     "autoprefixer": "^9.7.6",
     "compress-images": "^1.7.8",
+    "dotenv": "^8.2.0",
     "fs-extra": "^9.0.0",
     "markdown-it": "^10.0.0",
     "nunjucks": "^3.2.1",

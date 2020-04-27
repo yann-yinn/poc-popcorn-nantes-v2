@@ -1,6 +1,6 @@
 # POPCORN 🍿
 
-_Popcorn_ est une plateforme open source et (vraiment) sans frais ni commission qui aide les développeur-e-s freelance de Nantes à trouver des projets : [Voir le site](https://popcorn-nantes.github.io/)
+_Popcorn_ est une plateforme open source et (vraiment) sans frais ni commission qui aide les développeur-e-s freelance de Nantes à trouver des projets : [Voir le site](https://popcorn-nantes.github.io)
 
 Les objectifs de _Popcorn_ pour les développeurs freelances :
 
@@ -36,7 +36,7 @@ Pour soumettre une suggestion, signaler un bug, demander de l'aide, tu peux auss
 
 ## Documentation technique
 
-Il s'agit d'un site généré statiquement par notre [machine à Popcorn](https://github.com/popcorn-nantes/popcorn-machine) qui repose sur [Nuxt.js](https://nuxtjs.org/).
+Il s'agit d'un site généré statiquement par un script Node.js à partir de fichiers markdowns.
 
 ## Installation
 

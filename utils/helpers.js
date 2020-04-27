@@ -27,10 +27,6 @@ module.exports = {
   STATIC_DIRECTORY,
 };
 
-/*===================================
- * Popcorn.js static site generator
- *==================================*/
-
 function parseMarkdownDirectory(inputDirectory, options = {}) {
   const directoryPath = inputDirectory;
   const files = fs.readdirSync(directoryPath);

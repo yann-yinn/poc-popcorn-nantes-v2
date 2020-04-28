@@ -31,7 +31,7 @@ mail: mail@mail.fr
 telephone:
 
 # REQUIS
-# l'image doit être ajoutée dans le dossier /static/photos et faire moins de 100ko !
+# l'image doit être ajoutée dans le dossier /static/media/photos et faire moins de 100ko !
 photo: placeholder-5.png
 
 # REQUIS

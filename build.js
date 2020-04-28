@@ -51,18 +51,20 @@ function build() {
 
   // resize and compress .jpeg & .png images for homepage listing,
   // and create .webp versions of photos.
-  fs.mkdirSync(`./${BUILD_DIRECTORY}/thumbnails/homepage`, { recursive: true });
-  fs.readdirSync(`./${BUILD_DIRECTORY}/photos`).forEach(function (filename) {
-    sharp(`./${BUILD_DIRECTORY}/photos/` + filename)
+  fs.mkdirSync(`./${BUILD_DIRECTORY}/media/thumbnails`, { recursive: true });
+  fs.readdirSync(`./${BUILD_DIRECTORY}/media/photos`).forEach(function (
+    filename
+  ) {
+    sharp(`./${BUILD_DIRECTORY}/media/photos/` + filename)
       .png({ compression: 9 })
       .jpeg({ progressive: true, quality: 80 })
       .resize(300)
-      .toFile(`./${BUILD_DIRECTORY}/thumbnails/homepage/` + filename)
+      .toFile(`./${BUILD_DIRECTORY}/media/thumbnails/` + filename)
       .then(() => {
         // create webp version
         let basename = filename.replace(/\.[^/.]+$/, "");
-        sharp(`./${BUILD_DIRECTORY}/photos/` + filename).toFile(
-          `./${BUILD_DIRECTORY}/thumbnails/homepage/` + basename + ".webp"
+        sharp(`./${BUILD_DIRECTORY}/media/photos/` + filename).toFile(
+          `./${BUILD_DIRECTORY}/media/thumbnails/` + basename + ".webp"
         );
       });
   });

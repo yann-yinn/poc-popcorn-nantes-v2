@@ -8,7 +8,7 @@
       title="Profil freelance de "+ entity.prenom + " " + entity.nom + "," + entity.titre,
       description="Trouvez un développeur freelance à Nantes sans intermédiaire et sans frais.",  
       url=SITE_BASE_URL + "/person/" + entity.$slug,
-      image=SITE_BASE_URL + "/images/popcorn.jpg"
+      image=SITE_BASE_URL + "/media/thumbnails/" + entity.photo"
     ) 
   }}
 {% endblock %}
@@ -18,7 +18,7 @@
   <div class="container mx-auto my-10 px-10">
     <div class="flex flex-wrap">
       <div class="w-full md:w-1/4 pr-0 md:pr-10">
-        <img class="object-cover" src="/photos/{{entity.photo}}" />
+        <img class="object-cover" src="/media/photos/{{entity.photo}}" />
       </div>
       <div class="w-full mt-10 md:w-3/4 md:mt-0">
         <div class="flex flex-wrap items-start">
@@ -58,7 +58,7 @@
           <hr>
           <div class="">
              <div class="md:flex bg-white rounded-lg p-6">
-              <img class="h-32 w-32 object-cover md:h-24 md:w-24 rounded-full mx-auto md:mx-0 md:mr-6" src="{{entity.photo}}">
+              <img class="h-32 w-32 object-cover md:h-24 md:w-24 rounded-full mx-auto md:mx-0 md:mr-6" src="/media/photos/{{entity.photo}}">
               <div class="text-center md:text-left">
                 <h2 class="text-lg">{{entity.prenom}} {{entity.nom}}</h2>
                 <div class="text-purple-500">{{entity.titre}}</div>

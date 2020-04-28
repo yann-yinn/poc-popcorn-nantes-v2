@@ -1,24 +1,6 @@
 {% extends "layout.njk" %} 
 {% import "macros.njk" as macros %}
 
-{% block scripts %}
-  <script src="/search.js"></script>
-  <script>
-   // @see https://www.andreaverlicchi.eu/lazyload/
-    window.lazyLoadOptions = {
-      elements_selector: ".lazy"
-    };
-    window.addEventListener(
-      "LazyLoad::Initialized",
-      function (event) {
-          window.lazyLoadInstance = event.detail.instance;
-      },
-      false
-    );
-  </script>
-  <script src="/lazyload.js"></script>
-{% endblock %}
-
 {% block head %}
   <title>Popcorn Nantes</title>
   {{ 
@@ -70,4 +52,22 @@
       </div>
     {% endfor %}
   </div>
+{% endblock %}
+
+{% block scripts %}
+  <script src="/search.js"></script>
+  <script>
+   // @see https://www.andreaverlicchi.eu/lazyload/
+    window.lazyLoadOptions = {
+      elements_selector: ".lazy"
+    };
+    window.addEventListener(
+      "LazyLoad::Initialized",
+      function (event) {
+          window.lazyLoadInstance = event.detail.instance;
+      },
+      false
+    );
+  </script>
+  <script src="/lazyload.js"></script>
 {% endblock %}

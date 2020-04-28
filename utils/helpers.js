@@ -2,7 +2,6 @@ const fs = require("fs");
 const yamlFront = require("yaml-front-matter");
 const path = require("path");
 const slug = require("slug");
-const rimraf = require("rimraf");
 const autoprefixer = require("autoprefixer");
 const postcss = require("postcss");
 const purgecss = require("@fullhuman/postcss-purgecss");
@@ -16,9 +15,7 @@ module.exports = {
   parseMarkdownDirectory,
   parseMarkdownFile,
   saveToFile,
-  removeAllFilesFromDirectory,
   shuffle,
-  deleteDirectoryRecursive,
   postcssRun,
 };
 
@@ -82,22 +79,6 @@ function saveToFile(filepath, data) {
     throw new Error(error);
   }
   // console.log("\x1b[32m", `📚 ${filepath} created.`);
-}
-
-function deleteDirectoryRecursive(directory) {
-  const directoryPath = path.resolve(`./${directory}`);
-  rimraf.sync(directoryPath);
-}
-
-function removeAllFilesFromDirectory(directory) {
-  fs.readdirSync(directory, (err, files) => {
-    if (err) throw err;
-    for (const file of files) {
-      fs.unlinkSync(path.join(directory, file), (err) => {
-        if (err) throw err;
-      });
-    }
-  });
 }
 
 /**

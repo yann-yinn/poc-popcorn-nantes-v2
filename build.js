@@ -53,13 +53,18 @@ function build() {
   // resize and compress jpeg for homepage listing.
   fs.mkdirSync("./_site/thumbnails");
   fs.mkdirSync("./_site/thumbnails/homepage");
-  const promises = [];
   fs.readdirSync("./_site/photos").forEach(function (filename) {
     sharp("./_site/photos/" + filename)
       .png({ compression: 9 })
       .jpeg({ progressive: true, quality: 90 })
       .resize(300)
       .toFile("./_site/thumbnails/homepage/" + filename);
+  });
+  fs.readdirSync("./_site/photos").forEach(function (filename) {
+    let basename = filename.replace(/\.[^/.]+$/, "");
+    sharp("./_site/photos/" + filename).toFile(
+      "./_site/thumbnails/homepage/" + basename + ".webp"
+    );
   });
 }
 
@@ -73,7 +78,7 @@ function buildPages() {
 
 function buildPersons() {
   let resources = parseMarkdownDirectory("./content/persons");
-  // keywords
+
   resources = resources.map((resource) => ({
     ...resource,
     // this is how we will build search index for our search engine.
@@ -82,37 +87,12 @@ function buildPersons() {
       ...resource.technologies,
       resource.titre,
     ],
+    photoWebp: resource.photo.replace(/\.[^/.]+$/, "") + ".webp",
     mail: Buffer.from(resource.mail).toString("base64"),
     telephone: resource.telephone
-      ? new Buffer(resource.telephone).toString("base64")
+      ? Buffer.from(resource.telephone.toString()).toString("base64")
       : "",
   }));
-
-  // photo
-  resources = resources.map((resource) => {
-    const { gravatar, mail, photo } = resource;
-    // no gravatar information -> quit
-    if (!gravatar)
-      return {
-        ...resource,
-        filename: photo,
-        photo: `/photos/${photo}`,
-        thumbnail_homepage: `/thumbnails/homepage/${photo}`,
-      };
-
-    // gravatar field can be a boolean, in which case we use the mail field
-    // or it can be a string, in which case we use its value
-    const gravatarEmail = typeof gravatar === "boolean" ? mail : gravatar;
-
-    // we needs to retrieve the md5 of the email to get the avatar from gravatar
-    const md5sum = md5(gravatarEmail.toLowerCase().trim());
-
-    return {
-      ...resource,
-      photo: `https://www.gravatar.com/avatar/${md5sum}?s=500`,
-      thumbnail_homepage: `https://www.gravatar.com/avatar/${md5sum}?s=500`,
-    };
-  });
 
   const searchIndexJson = [];
   resources.map((resource) => {
